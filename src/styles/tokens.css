@@ -1,0 +1,8 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=DynaPuff:wght@400..700&family=Mulish:ital,wght@0,200..1000;1,200..1000&family=Varta:wght@300..700&display=swap");
+
+:root {
+  --main-color: #e1bee7;
+  --secondary-color: #a76d9b;
+  --text-color: #282128;
+  --hover: #f6eb61;
+}
