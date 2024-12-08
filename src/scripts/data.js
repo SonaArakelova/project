@@ -1,4 +1,4 @@
- const posts = [
+ export const posts = [
     {
       id: 1,
       title: "The Adventures of Alice in Wonderland",
@@ -26,7 +26,7 @@
   ]
   
   
-  const bloggers = [
+ export const bloggers = [
     {
       id: 1,
       firstName: "Alice",

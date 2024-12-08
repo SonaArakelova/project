@@ -1,4 +1,5 @@
 import UI from './utils/UI.js';
+import {bloggers, posts} from "./data.js";
 
 function createHomeLayout() {
   const container = UI.createElement("div", { class: "container-root" }, [
