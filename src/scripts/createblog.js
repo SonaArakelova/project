@@ -74,7 +74,7 @@ function createNewPost(title,story,authorName,img) {
 
 
     return new API('https://simple-blog-api-red.vercel.app')
-    .post('/posts', postData)  
+    .post(postData)  
     .then(post => {
         console.log('Post created:', post);  
         
