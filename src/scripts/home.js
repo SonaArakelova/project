@@ -21,7 +21,6 @@ function createHomeLayout() {
             UI.createElement("img", { class: 'blogger-card-avatar', 
               // src: blogger.avatar, 
             }),
-           // UI.createElement("div", { class: 'blogger-card-content' }, `${blogger.firstName} ${blogger.lastName}`)
           ])
         )
       ]),

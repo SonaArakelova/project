@@ -52,7 +52,7 @@ export class User extends API {
         email: data.email,
         firstName: data.firstName,
         lastName: data.lastName,
-        token: data.token,  
+        password: data.password
     };
 
     localStorage.setItem('user', JSON.stringify(user));
