@@ -16,10 +16,11 @@ body {
 .header {
   display: flex;
   justify-content: flex-end;
+  align-items: center;
   background-color: var(--secondary-color);
   padding: 20px;
-  height: 65px;
-  box-sizing: border-box;
+  height: 70px;
+
 }
 
 a {
@@ -29,7 +30,7 @@ a {
 }
 
 a:focus {
-  color: #f6eb61;
+  color: #fefefc;
 }
 
 /* login */
@@ -140,7 +141,7 @@ button{
 }
 
 button:hover {
-  color: var(--text-color);
+  color: white;
   background-color: var(--hover);
 }
 
@@ -154,10 +155,15 @@ button:hover {
   box-sizing: border-box;
 }
 
+#logoutButton{
+ font-size: 1.1rem;
+}
+
+
 .sidebar {
   font-size: 35px;
   color: #fff;
-  width: 220px;
+  width: 260px;
   background-color: var(--secondary-color);
   padding: 30px 10px;
   box-sizing: border-box;
@@ -173,6 +179,9 @@ button:hover {
   margin-top: 2rem;
   display: flex;
   flex-direction: column;
+  height: 500px; /* Set the desired height */
+  overflow-y: auto; /* Enables vertical scrolling */
+  overflow-x: hidden;
 }
 
 .blogger-card {
@@ -184,6 +193,7 @@ button:hover {
   gap: 15px;
   background-color: #fff;
   transition: transform 0.3s ease;
+  width: 200px;
 }
 
 .blogger-card:hover {
@@ -225,7 +235,7 @@ img {
 
 section{
   box-sizing: border-box;
-  margin-left: 220px;
+  margin-left: 250px;
 }
 
 
@@ -235,7 +245,7 @@ section{
   flex-direction: column;
   box-sizing: border-box;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  min-height: 400px;
+  min-height: 500px;
   margin-bottom: 10px;
   background-color: var(--main-color);
   color: var(--text-color);
@@ -284,6 +294,7 @@ section{
 
 .post-story {
   display: flex;
+  height: 170px;
   justify-content: space-between;
   align-items: center;
   gap: 5px;
@@ -292,8 +303,8 @@ section{
 }
 
 .post-image {
-  width: 140px;
-  height: 110px;
+  width: 180px;
+  height: 140px;
 }
 
 .post-story-text {

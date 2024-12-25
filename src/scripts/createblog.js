@@ -1,6 +1,6 @@
 import UI from './utils/UI.js';
 import { validateNotEmpty, ValidationError } from './utils/validation.js';
-import { API } from './API/server.js';
+import {Post} from './server/post.api.js';
 
 function createBlogLayout() {
     const container = UI.createElement("div", { class: "container-root" }, [
@@ -64,6 +64,7 @@ function createBlogLayout() {
 
 createBlogLayout();
 
+
 function createNewPost(title,story,authorName,img) {
     const postData = {
         title:title,
@@ -73,15 +74,12 @@ function createNewPost(title,story,authorName,img) {
     };
 
 
-    return new API('https://simple-blog-api-red.vercel.app')
+    return new Post('https://simple-blog-api-red.vercel.app')
     .post(postData)  
     .then(post => {
         console.log('Post created:', post);  
         
-        // const postId = post.id;
-        // console.log('New Post ID:', postId); 
-
-       
+     
         window.location.href = '/home.html';
         return post;  
     })  
