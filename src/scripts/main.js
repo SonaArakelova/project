@@ -1,8 +1,7 @@
 import UI from './utils/UI.js';
 // import { validateEmail } from './utils/validation.js';
 import {Storage} from './utils/storage.js';
-//import {User} from './server/user.api.js';
-//import { api } from './server/api.js'
+import {User} from './server/user.api.js';
 
 
 
@@ -16,7 +15,7 @@ const handleLogin = async (event) => {
       email, 
       password
     }
-  
+    const api = new User()
     const result = await api.auth.login(credentials);
   
     if (result.accessToken && result.user) {
