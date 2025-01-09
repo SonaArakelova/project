@@ -19,42 +19,80 @@ export class User extends API {
 
   postUser(userData) {
     return fetch(`${this.baseUrl}/api/auth/register`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(userData),
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(userData),
     })
     .then(response => {
-        if (!response.ok) {
-            return response.text().then(errorText => {
-                throw new Error('Failed to create user: ' + response.statusText + ' - ' + errorText);
-            });
-        }
-        return response.json();
+      if (!response.ok) {
+        return response.text().then(errorText => {
+          throw new Error('Failed to create user: ' + response.statusText + ' - ' + errorText);
+        });
+      }
+      return response.json();
     })
     .then(data => {
-        if (data && data.token) {
-            saveUserDataToLocalStorage(data);
-        } else {
-            alert('Registration failed');
-        }
+      if (data && data.token) {
+        this.saveUserDataToLocalStorage(data);
+        alert('User registered successfully');
+      } else {
+        alert('Registration failed');
+      }
     })
     .catch(error => {
-        console.error('Error:', error);
-        throw error;
+      console.error('Error:', error);
+      throw error;
     });
-}
-
- saveUserDataToLocalStorage(data){
+  }
+  
+  saveUserDataToLocalStorage(data) {
     const user = {
-        username: data.username,
-        email: data.email,
-        firstName: data.firstName,
-        lastName: data.lastName,
-        password: data.password
+      username: data.username,
+      email: data.email,
+      firstName: data.firstName,
+      lastName: data.lastName,
+      token: data.token  
     };
-
+  
     localStorage.setItem('user', JSON.stringify(user));
+  }
 }
-}
+
+
+
+//teacher
+// import { Storage } from '../utils/storage.js'
+// import { BaseApi } from "./base.js";
+
+// export class UserApi {
+//   constructor(baseUrl) {
+//     this.baseUrl = baseUrl;
+//   }
+
+
+//   async getUser() {
+//     try {
+//       const token = Storage.getItem('token')
+
+//       const response = await fetch(this.getFullUrl('/users'));
+     
+//       if (response.status !== 200) {
+//         throw new Error(response.statusText);
+//       }
+      
+//       const user = await response.json();
+
+//       return user
+//     } catch (error) {
+//       console.error(error);
+//     }
+//   }
+
+
+//   getFullUrl(endpoint) {
+//     return `${this.baseUrl}${endpoint}`
+//   }
+
+// }

@@ -1,5 +1,6 @@
 import UI from './utils/UI.js';
 import {User} from './server/user.api.js';
+//import { AuthApi} from'./server/auth.api.js';
 
 
 
@@ -17,8 +18,8 @@ function createRegistrationLayout() {
             UI.createElement("div", { class: "submit-container" }, [
                 UI.createElement("form", { id: 'createUserForm' }, [
                     UI.createElement("div", { class: "input-group" }, [
-                        UI.createElement("input", { type: "text", placeholder: "First Name", required: true }),
-                        UI.createElement("input", { type: "text", placeholder: "Last Name", required: true }),
+                        UI.createElement("input", {id:"firstName", type: "text", placeholder: "First Name", required: true }),
+                        UI.createElement("input", {id:"lastName", type: "text", placeholder: "Last Name", required: true }),
                         UI.createElement("select", { name: "city", required: true }, [
                             UI.createElement("option", { value: "", disabled: true, selected: true }, "City"),
                             UI.createElement("option", { value: "new-york" }, "New York"),
@@ -31,7 +32,7 @@ function createRegistrationLayout() {
                             UI.createElement("option", { value: "seattle" }, "Seattle"),
                         ]),
                         UI.createElement("input", { type: "email", placeholder: "Email", id:'email', required: true }),
-                        UI.createElement("input", { type: "text", placeholder: "Username", id:'username', required: true }),
+                        UI.createElement("input", {type: "text", placeholder: "Username", id:'username', required: true }),
                         UI.createElement("input", { type: "password", placeholder: "password", id:'password', required: true }),
 
                     ]),
@@ -68,7 +69,8 @@ function createRegistrationLayout() {
         const username= document.getElementById('username').value;
         const password = document.getElementById('password').value
 
-
+     
+         
         createNewUser(lastName, firstName, email,username,password).then(user => {
             window.location.href = './home.html';
         });
@@ -79,41 +81,6 @@ function createRegistrationLayout() {
 }
 
 createRegistrationLayout();
-
-
-
-
-// function createNewUser(lastName, firstName, email, username, password){
-// const userData = {
-//         lastName: lastName,
-//         firstName: firstName,
-//         email: email,
-//         username: username,
-//         password: password
-// };
-
-
-// return new User('https://simple-blog-api-red.vercel.app')
-// .postUser(userData)
-// .then(user=>{
-//     console.log('User created:' , user);
-    
-//     window.location.href = '/home.html';
-//     return user;
-
-// })
-// .catch(error => {
-//     console.error('Error creating user:', error);
-//     if (error.response) {
-//         console.error('Error response:', error.response);  
-//     }
-//     if (error.message) {
-//         console.error('Error message:', error.message); 
-//     }
-//     throw error;  
-// });
-
-// }
 
 
 async function createNewUser(lastName, firstName, email, username, password) {

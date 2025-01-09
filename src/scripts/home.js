@@ -1,7 +1,7 @@
 import UI from './utils/UI.js';
 import {Post} from './server/post.api.js';
 import {User} from './server/user.api.js';
-//import {Storage} from './utils/storage.js';
+import {isUserLogin} from './utils/login-checking.js';
 
 
 
@@ -19,7 +19,6 @@ function createHomeLayout() {
         UI.createElement("div", { class: 'blogger-container' }, 
           UI.createElement("div", { class: 'blogger-card' }, [
             UI.createElement("img", { class: 'blogger-card-avatar', 
-              // src: blogger.avatar, 
             }),
           ])
         )
@@ -93,6 +92,7 @@ loadUsers().then(users => {
 });
 
 };
+
 
 ///posts
 function loadPosts() {
@@ -195,22 +195,22 @@ window.onload = function() {
 // document.getElementById('logoutButton').addEventListener('click', logoutUser);
 
 
-function checkLoginStatus() {
-  const userData = localStorage.getItem('user');
+// function checkLoginStatus() {
+//   const userData = localStorage.getItem('user');
 
-  if (!userData) {
-      window.location.href = './index.html';  
-      return;
-  }
+//   if (!userData) {
+//       window.location.href = './index.html';  
+//       return;
+//   }
 
-  try {
-      const user = JSON.parse(userData);
-      console.log("User is logged in:", user);
-  } catch (error) {
-      console.error("Error parsing user data:", error);
-      window.location.href = './index.html';  
-  }
-}
+//   try {
+//       const user = JSON.parse(userData);
+//       console.log("User is logged in:", user);
+//   } catch (error) {
+//       console.error("Error parsing user data:", error);
+//       window.location.href = './index.html';  
+//   }
+// }
 
 
 
@@ -251,7 +251,23 @@ function deletePost(event) {
   }
 }
 
+const initApplicants = () => {
+  try {
+    if (!isUserLogin()) {
+      window.location.assign('index.html');
+      return
+    }
 
+    api.post.getPosts().then(data => {
+      state.posts = data;
+      createHomeLayout();
+    })
+  } catch (error) {
+    state.posts = [];
+  }
+};
+
+initApplicants();
 
 ////////
 function createFooter() {

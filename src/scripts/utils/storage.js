@@ -1,37 +1,45 @@
 
+
 export class Storage {
-    static save(key, value) {
-        try {
-            if (!key || value === undefined) {
-                throw new Error("Key and value are required");
-            }
-            localStorage.setItem(key, JSON.stringify(value));
-        } catch (error) {
-            console.error("Error saving to localStorage:", error.message);
+    static getItem(key) {
+      try {
+        const value = localStorage.getItem(key);
+        if (value) {
+          return JSON.parse(value);
         }
+      } catch (error) {
+        return null;
+      }
     }
-
-    static get(key) {
-        try {
-            const value = localStorage.getItem(key);
-            if (!value) {
-                return [];  
-            }
-            return JSON.parse(value); 
-        } catch (error) {
-            console.error("Error reading from localStorage:", error.message);
-            return [];  
-        }
+    static set(key, value) {
+      try {
+        localStorage.setItem(key, JSON.stringify(value));
+  
+        return true;
+      } catch (error) {
+        return false;
+      }
     }
-
+  
     static remove(key) {
-        try {
-            localStorage.removeItem(key);
-        } catch (error) {
-            console.error("Error removing from localStorage:", error.message);
-        }
+      try {
+        localStorage.removeItem(key);
+  
+        return true;
+      } catch (error) {
+        return false;
+      }
     }
-}
-
+  
+    static clear() {
+      try {
+        localStorage.clear();
+  
+        return true;
+      } catch (error) {
+        return false;
+      }
+    }
+  }
 
 
