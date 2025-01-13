@@ -1,10 +1,5 @@
 import UI from './utils/UI.js';
-import {User} from './server/user.api.js';
-//import { AuthApi} from'./server/auth.api.js';
-
-
-
-
+import { api } from './server/api.js';
 
 function createRegistrationLayout() {
     const container = UI.createElement("div", { class: "container-root" }, [
@@ -33,8 +28,7 @@ function createRegistrationLayout() {
                         ]),
                         UI.createElement("input", { type: "email", placeholder: "Email", id:'email', required: true }),
                         UI.createElement("input", {type: "text", placeholder: "Username", id:'username', required: true }),
-                        UI.createElement("input", { type: "password", placeholder: "password", id:'password', required: true }),
-
+                        UI.createElement("input", { type: "password", placeholder: "Password", id:'password', required: true }),
                     ]),
                     UI.createElement("div", { class: "gender" }, [
                         UI.createElement("div", { class: "gender-option" }, [
@@ -51,63 +45,49 @@ function createRegistrationLayout() {
                             UI.createElement("input", { type: "checkbox", id: "subscribe", name: "subscribe" }),
                             UI.createElement("label", { for: "subscribe" }, "Send me Email"),
                         ]),
-                        UI.createElement("button", { type: "submit" }, "Submit"),
+                        UI.createElement("button", { type: "submit", id:'registr' }, "Submit"),
                     ]),
                 ]),
             ]),
         ]),
     ]);
 
-    const form = container.querySelector('#createUserForm');
-    form.addEventListener('submit', function (event) {
+    UI.render(container, document.body);
+
+    const submitButton = document.getElementById('registr');
+
+    const handelSubmit = async (event) => {
         event.preventDefault();
 
+        const firstName = document.getElementById('firstName').value.trim();
+        const lastName = document.getElementById('lastName').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value.trim();
+        const username = document.getElementById('username').value.trim();
 
-        const lastName = document.querySelector('[placeholder="Last Name"]').value;
-        const firstName = document.querySelector('[placeholder="First Name"]').value;
-        const email = document.getElementById('email').value;
-        const username= document.getElementById('username').value;
-        const password = document.getElementById('password').value
+        const user = {
+            firstName,
+            lastName,
+            email, 
+            password,
+            username
+        };
 
-     
-         
-        createNewUser(lastName, firstName, email,username,password).then(user => {
-            window.location.href = './home.html';
-        });
-    })
+        console.log(user);
 
+        const result = await api.auth.register(user);
+        console.log(result);
 
-    UI.render(container, document.body);
+        if (result.id) {
+            window.location.assign("index.html");
+        } else {
+            alert("Something went wrong. Please check your data.");
+        }
+    };
+
+    submitButton.addEventListener('click', handelSubmit);
+
+  
 }
 
 createRegistrationLayout();
-
-
-async function createNewUser(lastName, firstName, email, username, password) {
-    const userData = {
-        lastName: lastName,
-        firstName: firstName,
-        email: email,
-        username: username,
-        password: password,
-    };
-
-    try {
-        const userAPI = new User('https://simple-blog-api-red.vercel.app');
-
-        const user = await userAPI.postUser(userData);
-        console.log('User created:', user);
-
-        localStorage.setItem('user', JSON.stringify(user));  
-
-        window.location.href = './home.html';
-        return user;
-
-    } catch (error) {
-        console.error('Error creating user:', error);
-        throw error;
-    }
-}
-
-  
-

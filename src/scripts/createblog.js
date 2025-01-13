@@ -1,8 +1,9 @@
 import UI from './utils/UI.js';
-import { validateNotEmpty, ValidationError } from './utils/validation.js';
-// import {Post} from './server/post.api.js';
-// import { api } from './server/api.js'
-// import { Storage } from "./utils/storage.js";
+//import { validateNotEmpty, ValidationError } from './utils/validation.js';
+import { api } from './server/api.js'
+import { Storage } from "./utils/storage.js";
+
+
 
 function createBlogLayout() {
     const container = UI.createElement("div", { class: "container-root" }, [
@@ -25,74 +26,86 @@ function createBlogLayout() {
                     UI.createElement("input", { type: "text", id: "authorName", placeholder: "Write author name", required: true }),
 
 
-                    UI.createElement("label", { for: "img" }, "Image Link (URL)"),
-                    UI.createElement("input", { type: "url", id: "img", placeholder: "Enter image URL" }),
+                    UI.createElement("label", { for: "file-upload" }, ),
+                    UI.createElement("input", { type: "file", id: "file-upload" }),
 
-                    UI.createElement("button", { type: "submit", class: 'button' }, "Create Post")
+                    UI.createElement("button", { type: "submit", class: 'button', id:"createPost"}, "Create Post")
                 ]),
             ], 'Create a New Post'),
         ]),
     ]);
 
-    const form = container.querySelector('#createPostForm');
-    form.addEventListener('submit', function (event) {
-        event.preventDefault();
-
-        const title = document.getElementById('title').value;
-        const story = document.getElementById('story').value;
-        const img = document.getElementById('img').value;
-        const  authorName= document.getElementById('authorName').value;
-
-
-        try {
-            validateNotEmpty(title, "Title");
-            validateNotEmpty(story, "Story");
-
-            createNewPost(title, story, authorName, img).then(post => {
-                window.location.href = './home.html';
-            });
-
-        } catch (error) {
-            if (error instanceof ValidationError) {
-                alert(error.message);
-            } else {
-                console.error("Unexpected error:", error);
-            }
-        }
-    });
+   
+    
 
     UI.render(container, document.body);
+
+    const form = container.querySelector('#createPost');
+    form.addEventListener("click", createPostHandler); 
+};
+
+
+
+function initApplicants() {
+    createBlogLayout();
+
+  const queryString = window.location.search;
+  const searchParams = new URLSearchParams(queryString);
+
+  if (searchParams.has("id")) {
+    const postId = searchParams.get("id");
+
+    api.post.getPostById(postId).then(post => {
+      document.getElementById("postTitle").value = post.title;
+      document.getElementById("postStory").value = post.story;
+      document.getElementById("postImage").value = post.img ? post.img : "";   
+    }).catch(() => {
+      window.location.assign("home.html");
+    })
+  }
+
 }
 
-createBlogLayout();
+initApplicants();
 
 
-function createNewPost(title,story,authorName,img) {
-    const postData = {
-        title:title,
-        story:story,
-        authorName:authorName,
-        img:img || '',  
-    };
+async function createPostHandler(event) {
+  event.preventDefault();
 
+  const title = document.getElementById("title").value.trim();
+  const story = document.getElementById("story").value.trim();
+  const fileUpload = document.getElementById("file-upload");
 
-    return new Post('https://simple-blog-api-red.vercel.app')
-    .post(postData)  
-    .then(post => {
-        console.log('Post created:', post);  
-        
-     
-        window.location.href = '/home.html';
-        return post;  
-    })  
-    .catch(error => {
-        console.error('Error creating post:', error);
-        if (error.response) {
-            console.error('Error response:', error.response);  
-        }
-        if (error.message) {
-            console.error('Error message:', error.message); 
-        }
-        throw error;  
+  const uploadedFile = await api.fileUpload.upload(fileUpload.files[0]);
+
+  if (!title || !story || !fileUpload.files.length) {
+    alert("Please fill in all fields.");
+    return;
+  }
+
+  const user = Storage.getItem('user');
+
+  const newPost = {
+    title,
+    story,
+    authorName: user.username,
+    img: uploadedFile.url,
+    userId: user.id
+  };
+
+  const queryString = window.location.search;
+  const searchParams = new URLSearchParams(queryString);
+  const id = searchParams.get("id");
+
+  if (id) {
+    api.post.update(id, newPost).then((post) => {
+      console.log(post);
+      window.location.assign("home.html");  
     });
+  } else {
+    api.post.create(newPost).then((post) => {
+      console.log(post);
+      window.location.assign("home.html");
+    });
+  }
 }

@@ -28,6 +28,7 @@ export class FileUpload {
   }
 
   getFullUrl(endpoint) {
+    // Issue with endpoint
     return `${this.baseUrl}${endpoint}`;
   }
 }

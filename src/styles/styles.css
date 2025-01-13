@@ -312,6 +312,15 @@ section{
   padding-right: 5px;
 }
 
+.delete-button{
+  margin-top: 3.5px;
+}
+
+.edit-button{
+  margin-top: 4px;
+}
+
+
 .footer {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   height: 70px;
