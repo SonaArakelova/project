@@ -164,7 +164,7 @@ button:hover {
   font-size: 35px;
   color: #fff;
   width: 260px;
-  height:100vh;
+  height:80vh;
   background-color: var(--secondary-color);
   padding: 30px 10px;
   box-sizing: border-box;
