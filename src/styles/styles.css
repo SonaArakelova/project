@@ -164,6 +164,7 @@ button:hover {
   font-size: 35px;
   color: #fff;
   width: 260px;
+  height:100vh;
   background-color: var(--secondary-color);
   padding: 30px 10px;
   box-sizing: border-box;
@@ -179,9 +180,10 @@ button:hover {
   margin-top: 2rem;
   display: flex;
   flex-direction: column;
-  height: 500px; /* Set the desired height */
+  height: 500px; 
   overflow-y: auto; /* Enables vertical scrolling */
   overflow-x: hidden;
+  height: 100%;
 }
 
 .blogger-card {
